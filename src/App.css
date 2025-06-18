@@ -1,0 +1,382 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* src/index.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: #333;
+  overflow-x: hidden;
+  background-color: #fff;
+}
+
+section {
+  padding: 100px 0;
+}
+
+.project-card {
+  transition: all 0.3s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.timeline {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.timeline::after {
+  content: '';
+  position: absolute;
+  width: 2px;
+  background-color: #eaeaea;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  margin-left: -1px;
+}
+
+.timeline-item {
+  padding: 10px 40px;
+  position: relative;
+  width: 50%;
+  box-sizing: border-box;
+}
+
+.timeline-item:nth-child(odd) {
+  left: 0;
+}
+
+.timeline-item:nth-child(even) {
+  left: 50%;
+}
+
+.timeline-content {
+  padding: 30px;
+  background-color: white;
+  position: relative;
+  border: 1px solid #eaeaea;
+}
+
+.timeline-item:nth-child(odd) .timeline-content::after {
+  content: '';
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  right: -7.5px;
+  background-color: white;
+  border: 2px solid #2a7f62;
+  top: 30px;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.timeline-item:nth-child(even) .timeline-content::after {
+  content: '';
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  left: -7.5px;
+  background-color: white;
+  border: 2px solid #2a7f62;
+  top: 30px;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.timeline-date {
+  position: absolute;
+  top: 20px;
+  padding: 5px 15px;
+  border-radius: 0;
+  font-weight: 600;
+  color: white;
+}
+
+.timeline-item:nth-child(odd) .timeline-date {
+  right: -120px;
+}
+
+.timeline-item:nth-child(even) .timeline-date {
+  left: -120px;
+}
+
+@media (max-width: 992px) {
+  .timeline::after {
+    left: 31px;
+  }
+  
+  .timeline-item {
+    width: 100%;
+    padding-left: 70px;
+    padding-right: 25px;
+  }
+  
+  .timeline-item:nth-child(even) {
+    left: 0;
+  }
+  
+  .timeline-item:nth-child(odd) .timeline-content::after,
+  .timeline-item:nth-child(even) .timeline-content::after {
+    left: 21px;
+  }
+  
+  .timeline-item:nth-child(odd) .timeline-date,
+  .timeline-item:nth-child(even) .timeline-date {
+    left: 70px;
+    right: auto;
+    top: -15px;
+  }
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 0;
+  background-color: rgba(255,255,255,0.1);
+  color: #aaa;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  text-decoration: none;
+  border: 1px solid #555;
+}
+
+.social-link:hover {
+  background-color: #2a7f62;
+  color: white;
+  border-color: #2a7f62;
+}
+
+.nav-link {
+  color: rgba(255,255,255,0.8) !important;
+  transition: all 0.3s ease;
+  padding: 0.5rem 1rem;
+  position: relative;
+}
+
+.nav-link.active,
+.nav-link:hover {
+  color: white !important;
+}
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #2a7f62;
+}
+
+.navbar-dark .navbar-toggler {
+  border-color: rgba(255,255,255,0.1);
+}
+
+.progress-bar {
+  background-color: #2a7f62;
+}
+
+.btn-dark {
+  background-color: #333;
+  border-color: #333;
+}
+
+.btn-dark:hover {
+  background-color: #2a7f62;
+  border-color: #2a7f62;
+}
+
+.btn-outline-dark {
+  background-color: transparent;
+  border-color: #333;
+  color: #333;
+}
+
+.btn-outline-dark:hover {
+  background-color: #333;
+  border-color: #333;
+  color: white;
+}
+/* src/index.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --light-bg: #f8f9fa;
+  --dark-bg: #343a40;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: #333;
+  overflow-x: hidden;
+  background-color: #fff;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+section {
+  padding: 100px 0;
+}
+
+.divider {
+  width: 60px;
+  height: 2px;
+  background-color: #000;
+  margin: 20px auto;
+}
+
+.timeline {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  width: 2px;
+  background-color: #e9ecef;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  margin-left: -1px;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 50px;
+}
+
+.timeline-item::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background-color: #fff;
+  border: 3px solid #000;
+  top: 15px;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.timeline-item:nth-child(odd)::after {
+  left: 50%;
+  margin-left: -8px;
+}
+
+.timeline-item:nth-child(even)::after {
+  left: 50%;
+  margin-left: -8px;
+}
+
+.timeline-content {
+  position: relative;
+  background: #fff;
+}
+
+.project-image {
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar {
+  background-color: #343a40;
+}
+
+.navbar {
+  transition: all 0.3s ease;
+}
+
+.btn {
+  border-radius: 0;
+  padding: 10px 25px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-dark {
+  background-color: #343a40;
+  border-color: #343a40;
+}
+
+.btn-dark:hover {
+  background-color: #212529;
+  border-color: #212529;
+}
+
+.btn-outline-dark {
+  border: 2px solid #343a40;
+  background-color: transparent;
+  color: #343a40;
+}
+
+.btn-outline-dark:hover {
+  background-color: #343a40;
+  color: #fff;
+}
+
+.border {
+  border-color: #e9ecef !important;
+}
+
+@media (max-width: 768px) {
+  .timeline::before {
+    left: 31px;
+  }
+  
+  .timeline-item::after {
+    left: 25px !important;
+  }
+  
+  .timeline-content {
+    margin-left: 45px;
+  }
+}
