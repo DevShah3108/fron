@@ -3,15 +3,21 @@ import React, { useState, useEffect } from "react";
 const ProjectCard = ({ title, description, technologies, images = [] }) => {
   const [currentImage, setCurrentImage] = useState(0);
 
+  // Reset current image when images array changes
+  useEffect(() => {
+    setCurrentImage(0);
+  }, [images.length]);
+
+  // Set up image rotation interval
   useEffect(() => {
     if (images.length <= 1) return;
 
     const interval = setInterval(() => {
-      setCurrentImage((prev) => (prev + 1) % images.length);
+      setCurrentImage(prev => (prev + 1) % images.length);
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [images?.length || 0]);
+  }, [images.length]); // Simplified dependency array
 
   return (
     <div className="card p-3 shadow-sm h-100">

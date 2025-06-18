@@ -5,12 +5,12 @@ import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ProjectCard from './ProjectCard';
 import { 
-  Navbar, Nav, Container, Row, Col, ProgressBar, 
-  Card, Button, Form 
+  Navbar, Nav, Container, Row, Col, 
+ Button, Form 
 } from 'react-bootstrap';
 
-
-
+// Environment-based configuration
+const backendBaseURL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3000';
 
 const App = () => {
   const [formData, setFormData] = useState({
@@ -27,19 +27,41 @@ const App = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:3000/api/send-email', formData);
+      await axios.post(`${backendBaseURL}/api/send-email`, formData);
       alert('Message sent successfully!');
       setFormData({
-      name: '',
-      email: '',
-      subject: '',
-      message: ''
-    });
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+      });
     } catch (error) {
-      alert('Failed to send message.');
-      console.error(error);
+      alert('Failed to send message. Please try again later or contact me directly at devshah31804@gmail.com');
+      console.error('API Error:', error.response?.data || error.message);
     }
   };
+   const SkillLevelBar = ({ level }) => {
+    // Convert percentage to 5-step visualization
+    const steps = Math.min(5, Math.ceil(level / 20));
+    
+    return (
+      <div className="d-flex gap-1">
+        {[...Array(5)].map((_, i) => (
+          <div 
+            key={i}
+            className={`skill-step ${i < steps ? 'skill-step-filled' : ''}`}
+            style={{
+              width: '18px',
+              height: '8px',
+              backgroundColor: i < steps ? '#343a40' : '#e9ecef',
+              transition: 'background-color 0.3s ease'
+            }}
+          />
+        ))}
+      </div>
+    );
+  };
+
   return (
     <>
       {/* Navbar with Logo */}
@@ -79,23 +101,22 @@ const App = () => {
                     src="./dev.jpg"alt="Dev Shah" 
                     className="img-fluid rounded-circle position-relative z-1 border" 
                     style={{
-    width: '280px',
-    height: '280px',
-    objectFit: 'cover',
-    borderRadius: '50%',
-    borderWidth: '5px',
-    borderStyle: 'solid',
-    borderColor: '#000' // Change to any color you like
-  }}
+                      width: '280px',
+                      height: '280px',
+                      objectFit: 'cover',
+                      borderRadius: '50%',
+                      borderWidth: '5px',
+                      borderStyle: 'solid',
+                      borderColor: '#000'
+                    }}
                   />
-
                 </div>
               </Col>
               <Col md={7} className="ps-md-5">
                 <h6 className="text-uppercase text-muted mb-3">B.E. IT Student</h6>
                 <h1 className="display-4 fw-bold mb-4">Dev Shah</h1>
                 <p className="lead text-secondary mb-4" style={{ maxWidth: '600px', lineHeight: 1.75, fontSize: '1.125rem' }}>
-                  I'm Dev Shah, an Information Technology undergrad at SVIT with a passion for software development and AI/ML integration. I thrive on exploring emerging technologies like IoT and turning them into practical, efficient solutions. Committed to continuous learning, I transform ideas into impactful software every day.
+                  I'm Dev Shah, an Information Technology(L.Y.) student at SVIT with a passion for software development and AI/ML integration. I thrive on exploring emerging technologies like IoT and turning them into practical, efficient solutions. Committed to continuous learning, I transform ideas into impactful software every day.
                 </p>
                 <div className="d-flex flex-wrap gap-3">
                   <Button href="#projects" variant="outline-dark" size="lg" className="px-4 py-2 fw-medium">
@@ -158,43 +179,48 @@ const App = () => {
               <h2 className="display-5 fw-bold mb-3">Skills & Technologies</h2>
               <div className="divider mx-auto bg-dark" style={{ width: '60px', height: '2px' }}></div>
             </div>
-            <Row className="g-4">
-              <Col md={6}>
-                {[
-                  { skill: 'C', level: 95 },
-                  { skill: 'Java', level: 90 },
-                  { skill: 'Python', level: 80 },
-                  { skill: 'IoT', level: 90 },
-                  { skill: 'Computer Vision', level: 90 }
-                ].map((item, index) => (
-                  <div className="mb-4" key={index}>
-                    <div className="d-flex justify-content-between mb-2">
-                      <span className="fw-medium">{item.skill}</span>
-                      <span className="text-muted">{item.level}%</span>
-                    </div>
-                    <ProgressBar now={item.level} variant="dark" className="rounded-0" style={{ height: '8px' }} />
-                  </div>
-                ))}
-              </Col>
-              <Col md={6}>
-                {[
-                  { skill: 'Basics of Neural Networks', level: 90 },
-                  { skill: 'AI/ML', level: 90 },
-                  { skill: 'HTML, CSS & JavaScript', level: 90 },
-                  { skill: 'React js', level: 60 },
-                  { skill: 'Node js & Express js', level: 50 }
-                ].map((item, index) => (
-                  <div className="mb-4" key={index}>
-                    <div className="d-flex justify-content-between mb-2">
-                      <span className="fw-medium">{item.skill}</span>
-                      <span className="text-muted">{item.level}%</span>
-                    </div>
-                    <ProgressBar now={item.level} variant="dark" className="rounded-0" style={{ height: '8px' }} />
-                  </div>
-                ))}
-              </Col>
-            </Row>
-            <div className="mt-5">
+           <Row className="g-5">
+        <Col lg={6}>
+          <div className="skill-column p-4 rounded-4 gray-shadow-sm">
+            <h4 className="mb-4 fw-bold text-dark">Core Technologies</h4>
+            {[
+              { skill: 'C Programming', level: 95 },
+              { skill: 'Java Development', level: 90 },
+              { skill: 'Python', level: 80 },
+              { skill: 'IoT Systems', level: 90 },
+              { skill: 'Computer Vision', level: 90 }
+            ].map((item, index) => (
+              <div className="mb-4" key={index}>
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <span className="fw-medium fs-5 text-dark">{item.skill}</span>
+                </div>
+                <SkillLevelBar level={item.level} />
+              </div>
+            ))}
+          </div>
+        </Col>
+        
+        <Col lg={6}>
+          <div className="skill-column p-4 rounded-4 shadow-sm">
+            <h4 className="mb-4 fw-bold text-dark">Web & AI Technologies</h4>
+            {[
+              { skill: 'Neural Networks', level: 90 },
+              { skill: 'AI/ML Algorithms', level: 90 },
+              { skill: 'HTML, CSS & JavaScript', level: 90 },
+              { skill: 'React.js', level: 60 },
+              { skill: 'Node.js & Express', level: 50 }
+            ].map((item, index) => (
+              <div className="mb-4" key={index}>
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <span className="fw-medium fs-5 text-dark">{item.skill}</span>
+                </div>
+                <SkillLevelBar level={item.level} />
+              </div>
+            ))}
+          </div>
+        </Col>
+      </Row>
+      <div className="mt-5">
               <h5 className="fw-bold mb-4">Used Technologies</h5>
               <div className="d-flex flex-wrap gap-2">
                 {['llama.cpp for AI chatbot', 'OpenCV', 'TensorFlow', 'MongoDB', 'AI/ML', 'GrowPi', 'Firebase', 'MySQL'].map((tech, index) => (
@@ -224,8 +250,6 @@ const App = () => {
             "./hostelfind1.jpg",
              "./hostelfind2.jpg",
              "./hostelfind3.jpg"
-             // replace with your image paths
-            
           ]}
         />
               </Col>
@@ -235,11 +259,9 @@ const App = () => {
           description="Advanced security system using facial recognition and voice authentication with automatic locking via proximity sensors."
           technologies={["Raspberry Pi", "IoT", "Computer Vision", "Machine Learning", "Python"]}
           images={[
-            "./doorlock.jpg", // replace with your image paths
-            
+            "./doorlock.jpg"
           ]}
         />
-
               </Col>
               <Col md={6} lg={4}>
                 <ProjectCard 
@@ -248,8 +270,7 @@ const App = () => {
                   technologies={["Python", "Regression", "Flask", "HTML", "CSS", "JavaScript"]}
                   images={[
             "./flightbook1.jpg",
-            "./flightbook2.jpg" // replace with your image paths
-            
+            "./flightbook2.jpg"
           ]}
                 />
               </Col>
@@ -306,7 +327,7 @@ const App = () => {
                       </div>
                     </div>
                   </a>
-                  <a href="https://mail.google.com/mail/?view=cm&fs=1&to=devshah31804@gmail.com" target="_blank" className="d-block contact-link mb-4 p-3 rounded text-decoration-none text-reset">
+                  <a href="https://mail.google.com/mail/?view=cm&fs=1&to=devshah31804@gmail.com" target="_blank" rel="noopener noreferrer" className="d-block contact-link mb-4 p-3 rounded text-decoration-none text-reset">
                     <div className="d-flex align-items-start">
                       <div className="me-3 fs-4">✉️</div>
                       <div>
@@ -329,62 +350,62 @@ const App = () => {
               <Col lg={7}>
                 <div className="p-4 border h-100">
                   <h4 className="fw-bold mb-4">Send a Message</h4>
-                 <Form onSubmit={handleSubmit}>
-      <Row>
-        <Col md={6}>
-          <Form.Group className="mb-3">
-            <Form.Label className="fw-medium">Your Name</Form.Label>
-            <Form.Control
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Name"
-              className="py-2"
-            />
-          </Form.Group>
-        </Col>
-        <Col md={6}>
-          <Form.Group className="mb-3">
-            <Form.Label className="fw-medium">Your Email</Form.Label>
-            <Form.Control
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="john@example.com"
-              className="py-2"
-            />
-          </Form.Group>
-        </Col>
-      </Row>
-      <Form.Group className="mb-3">
-        <Form.Label className="fw-medium">Subject</Form.Label>
-        <Form.Control
-          type="text"
-          name="subject"
-          value={formData.subject}
-          onChange={handleChange}
-          placeholder="Project Inquiry"
-          className="py-2"
-        />
-      </Form.Group>
-      <Form.Group className="mb-4">
-        <Form.Label className="fw-medium">Message</Form.Label>
-        <Form.Control
-          as="textarea"
-          name="message"
-          rows={5}
-          value={formData.message}
-          onChange={handleChange}
-          placeholder="Your message here..."
-          className="py-2"
-        />
-      </Form.Group>
-      <Button variant="dark" type="submit" className="w-100 py-2 fw-medium">
-        Send Message
-      </Button>
-    </Form>
+                  <Form onSubmit={handleSubmit}>
+                    <Row>
+                      <Col md={6}>
+                        <Form.Group className="mb-3">
+                          <Form.Label className="fw-medium">Your Name</Form.Label>
+                          <Form.Control
+                            type="text"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            placeholder="Name"
+                            className="py-2"
+                          />
+                        </Form.Group>
+                      </Col>
+                      <Col md={6}>
+                        <Form.Group className="mb-3">
+                          <Form.Label className="fw-medium">Your Email</Form.Label>
+                          <Form.Control
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            placeholder="john@example.com"
+                            className="py-2"
+                          />
+                        </Form.Group>
+                      </Col>
+                    </Row>
+                    <Form.Group className="mb-3">
+                      <Form.Label className="fw-medium">Subject</Form.Label>
+                      <Form.Control
+                        type="text"
+                        name="subject"
+                        value={formData.subject}
+                        onChange={handleChange}
+                        placeholder="Project Inquiry"
+                        className="py-2"
+                      />
+                    </Form.Group>
+                    <Form.Group className="mb-4">
+                      <Form.Label className="fw-medium">Message</Form.Label>
+                      <Form.Control
+                        as="textarea"
+                        name="message"
+                        rows={5}
+                        value={formData.message}
+                        onChange={handleChange}
+                        placeholder="Your message here..."
+                        className="py-2"
+                      />
+                    </Form.Group>
+                    <Button variant="dark" type="submit" className="w-100 py-2 fw-medium">
+                      Send Message
+                    </Button>
+                  </Form>
                 </div>
               </Col>
             </Row>
@@ -393,126 +414,184 @@ const App = () => {
       </div>
 
       {/* Enhanced Professional Footer */}
-<footer className="bg-dark text-white py-5">
-  <Container>
-    <Row className="g-4">
-      <Col lg={4} className="mb-4 mb-lg-0">
-        <div className="d-flex align-items-center mb-4">
-          <div className="logo-placeholder me-3 rounded-circle d-flex align-items-center justify-content-center" 
-               style={{ width: '50px', height: '50px', backgroundColor: '#495057' }}>
-            <span className="text-white fs-5">DS</span>
-          </div>
-          <div>
-            <h3 className="fw-bold mb-0 text-white">
-              Dev Shah
-            </h3>
-            <p className="text-white-50 mb-0">B.E. IT Student at SVIT</p>
-          </div>
-        </div>
-        <p className="text-white-50">
-          Transforming ideas into impactful software with expertise in AI/ML, IoT, and full-stack development.
-        </p>
-        <div className="d-flex gap-3">
-          <a href="https://www.linkedin.com/in/devshah4956" target="_blank" rel="noopener noreferrer" className="text-white">
-            <i className="bi bi-linkedin fs-4"></i>
-          </a>
-          <a href="https://github.com/devshah4956" target="_blank" rel="noopener noreferrer" className="text-white">
-            <i className="bi bi-github fs-4"></i>
-          </a>
-          <a href="mailto:devshah31804@gmail.com" className="text-white">
-            <i className="bi bi-envelope fs-4"></i>
-          </a>
-        </div>
-      </Col>
-      
-      <Col lg={4} className="mb-4 mb-lg-0">
-        <h5 className="fw-bold mb-4 text-white">Quick Links</h5>
-        <div className="d-flex flex-column gap-2">
-          <a href="#home" className="text-white text-decoration-none hover-underline">Home</a>
-          <a href="#education" className="text-white text-decoration-none hover-underline">Education</a>
-          <a href="#skills" className="text-white text-decoration-none hover-underline">Skills</a>
-          <a href="#projects" className="text-white text-decoration-none hover-underline">Projects</a>
-          <a href="#experience" className="text-white text-decoration-none hover-underline">Experience</a>
-          <a href="#contact" className="text-white text-decoration-none hover-underline">Contact</a>
-        </div>
-      </Col>
-      
-      <Col lg={4}>
-        <h5 className="fw-bold mb-4 text-white">Get In Touch</h5>
-        <ul className="list-unstyled">
-          <li className="mb-3 d-flex align-items-center">
-            <i className="bi bi-geo-alt me-3 text-info fs-5"></i>
-            <span className="text-white-50">Surat, Gujarat, India</span>
-          </li>
-          <li className="mb-3 d-flex align-items-center">
-            <i className="bi bi-envelope me-3 text-info fs-5"></i>
-            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=devshah31804@gmail.com"
-            target='_blank' className="text-white-50 text-decoration-none hover-underline">
-              devshah31804@gmail.com
-            </a>
-          </li>
-          <li className="d-flex align-items-center">
-            <i className="bi bi-linkedin me-3 text-info fs-5"></i>
-            <a href="https://linkedin.com/in/devshah4956" target="_blank" rel="noopener noreferrer" className="text-white-50 text-decoration-none hover-underline">
-              linkedin.com/in/devshah4956
-            </a>
-          </li>
-        </ul>
-      </Col>
-    </Row>
-    
-    <hr className="my-4 bg-white opacity-10" />
-    
-    <Row className="align-items-center">
-      <Col md={6} className="text-center text-md-start mb-3 mb-md-0">
-        <p className="text-white-50 mb-0 small">
-          &copy; {new Date().getFullYear()} Dev Shah. All rights reserved.
-        </p>
-      </Col>
-      <Col md={6} className="text-center text-md-end">
-        <p className="text-white-50 mb-0 small">
-          Designed and built with passion using React & Bootstrap
-        </p>
-      </Col>
-    </Row>
-  </Container>
+      <footer className="bg-dark text-white py-5">
+        <Container>
+          <Row className="g-4">
+            <Col lg={4} className="mb-4 mb-lg-0">
+              <div className="d-flex align-items-center mb-4">
+                <div className="logo-placeholder me-3 rounded-circle d-flex align-items-center justify-content-center" 
+                     style={{ width: '50px', height: '50px', backgroundColor: '#495057' }}>
+                  <span className="text-white fs-5">DS</span>
+                </div>
+                <div>
+                  <h3 className="fw-bold mb-0 text-white">
+                    Dev Shah
+                  </h3>
+                  <p className="text-white-50 mb-0">B.E. IT Student at SVIT</p>
+                </div>
+              </div>
+              <p className="text-white-50">
+                Transforming ideas into impactful software with expertise in AI/ML, IoT, and full-stack development.
+              </p>
+              <div className="d-flex gap-3">
+                <a href="https://www.linkedin.com/in/devshah4956" target="_blank" rel="noopener noreferrer" className="text-white">
+                  <i className="bi bi-linkedin fs-4"></i>
+                </a>
+                <a href="https://github.com/devshah4956" target="_blank" rel="noopener noreferrer" className="text-white">
+                  <i className="bi bi-github fs-4"></i>
+                </a>
+                <a href="mailto:devshah31804@gmail.com" className="text-white">
+                  <i className="bi bi-envelope fs-4"></i>
+                </a>
+              </div>
+            </Col>
+            
+            <Col lg={4} className="mb-4 mb-lg-0">
+              <h5 className="fw-bold mb-4 text-white">Quick Links</h5>
+              <div className="d-flex flex-column gap-2">
+                <a href="#home" className="text-white text-decoration-none hover-underline">Home</a>
+                <a href="#education" className="text-white text-decoration-none hover-underline">Education</a>
+                <a href="#skills" className="text-white text-decoration-none hover-underline">Skills</a>
+                <a href="#projects" className="text-white text-decoration-none hover-underline">Projects</a>
+                <a href="#experience" className="text-white text-decoration-none hover-underline">Experience</a>
+                <a href="#contact" className="text-white text-decoration-none hover-underline">Contact</a>
+              </div>
+            </Col>
+            
+            <Col lg={4}>
+              <h5 className="fw-bold mb-4 text-white">Get In Touch</h5>
+              <ul className="list-unstyled">
+                <li className="mb-3 d-flex align-items-center">
+                  <i className="bi bi-geo-alt me-3 text-info fs-5"></i>
+                  <span className="text-white-50">Surat, Gujarat, India</span>
+                </li>
+                <li className="mb-3 d-flex align-items-center">
+                  <i className="bi bi-envelope me-3 text-info fs-5"></i>
+                  <a href="https://mail.google.com/mail/?view=cm&fs=1&to=devshah31804@gmail.com"
+                  target='_blank' rel="noopener noreferrer" className="text-white-50 text-decoration-none hover-underline">
+                    devshah31804@gmail.com
+                  </a>
+                </li>
+                <li className="d-flex align-items-center">
+                  <i className="bi bi-linkedin me-3 text-info fs-5"></i>
+                  <a href="https://linkedin.com/in/devshah4956" target="_blank" rel="noopener noreferrer" className="text-white-50 text-decoration-none hover-underline">
+                    linkedin.com/in/devshah4956
+                  </a>
+                </li>
+              </ul>
+            </Col>
+          </Row>
+          
+          <hr className="my-4 bg-white opacity-10" />
+          
+          <Row className="align-items-center">
+            <Col md={6} className="text-center text-md-start mb-3 mb-md-0">
+              <p className="text-white-50 mb-0 small">
+                &copy; {new Date().getFullYear()} Dev Shah. All rights reserved.
+              </p>
+            </Col>
+            <Col md={6} className="text-center text-md-end">
+              <p className="text-white-50 mb-0 small">
+                Designed and built with passion using React & Bootstrap
+              </p>
+            </Col>
+          </Row>
+        </Container>
+        
+        {/* Add this style tag for hover effects */}
+        <style jsx>{`
+          .hover-underline {
+            position: relative;
+            display: inline-block;
+            transition: all 0.3s ease;
+          }
+          
+          .hover-underline:hover {
+            color: #0dcaf0 !important;
+          }
+          
+          .hover-underline::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #0dcaf0;
+            transition: width 0.3s ease;
+          }
+          
+          .hover-underline:hover::after {
+            width: 100%;
+          }
+          
+          .logo-placeholder {
+            transition: transform 0.3s ease;
+          }
+          
+          .logo-placeholder:hover {
+            transform: scale(1.1);
+          }
+            .skill-column {
+    background: white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-top: 4px solid #9e9e9e;;
+  }
   
-  {/* Add this style tag for hover effects */}
-  <style jsx>{`
-    .hover-underline {
-      position: relative;
-      display: inline-block;
-      transition: all 0.3s ease;
-    }
-    
-    .hover-underline:hover {
-      color: #0dcaf0 !important;
-    }
-    
-    .hover-underline::after {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 2px;
-      bottom: -2px;
-      left: 0;
-      background-color: #0dcaf0;
-      transition: width 0.3s ease;
-    }
-    
-    .hover-underline:hover::after {
-      width: 100%;
-    }
-    
-    .logo-placeholder {
-      transition: transform 0.3s ease;
-    }
-    
-    .logo-placeholder:hover {
-      transform: scale(1.1);
-    }
-  `}</style>
-</footer>
+  .skill-column:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+  
+  .skill-block {
+    width: 30px;
+    height: 12px;
+    background-color: #e9ecef;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+  }
+  
+  .skill-block-filled {
+  background: linear-gradient(90deg, #e0e0e0, #757575);
+}
+  
+  .divider {
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #4361ee, #3a0ca3);
+    border-radius: 2px;
+  }
+  
+  .skill-legend {
+    max-width: 600px;
+    width: 100%;
+  }
+  
+  h2.display-5 {
+    color: #212529;
+    position: relative;
+    padding-bottom: 10px;
+  }
+  
+  h2.display-5:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, #4361ee, #3a0ca3);
+    border-radius: 2px;}
+    /* In your CSS file or <style> tag */
+.gray-shadow-sm {
+  box-shadow: 0 .125rem .25rem rgba(128, 128, 128, 0.3); /* light gray shadow */
+}
+          .gray-shadow-sm:hover {
+            box-shadow: 0 .25rem .5rem rgba(128, 128, 128, 0.4); /* darker gray shadow on hover */
+          }
+        `}</style>
+      </footer>
     </>
   );
 };
