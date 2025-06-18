@@ -1,12 +1,11 @@
 // src/App.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ProjectCard from './ProjectCard';
 import { 
   Navbar, Nav, Container, Row, Col, 
- Button, Form 
+  Button, Form 
 } from 'react-bootstrap';
 
 // Environment-based configuration
@@ -19,6 +18,27 @@ const App = () => {
     subject: '',
     message: ''
   });
+
+  // Fix navigation scrolling to account for navbar height
+  useEffect(() => {
+    const handleScroll = () => {
+      const navbarHeight = document.querySelector('.navbar')?.offsetHeight || 80;
+      const hash = window.location.hash;
+      
+      if (hash) {
+        const targetElement = document.querySelector(hash);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - navbarHeight,
+            behavior: 'smooth'
+          });
+        }
+      }
+    };
+
+    window.addEventListener('hashchange', handleScroll);
+    return () => window.removeEventListener('hashchange', handleScroll);
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -40,7 +60,8 @@ const App = () => {
       console.error('API Error:', error.response?.data || error.message);
     }
   };
-   const SkillLevelBar = ({ level }) => {
+  
+  const SkillLevelBar = ({ level }) => {
     // Convert percentage to 5-step visualization
     const steps = Math.min(5, Math.ceil(level / 20));
     
@@ -91,34 +112,26 @@ const App = () => {
       {/* Main Content */}
       <div style={{ paddingTop: "80px" }}>
         {/* Hero Section */}
-        <section id="home" className="py-6" style={{ backgroundColor: '#f8f9fa' }}>
+        <section id="home" className="py-4 py-md-5" style={{ backgroundColor: '#f8f9fa' }}>
           <Container>
             <Row className="align-items-center">
-              <Col md={5} className="mb-5 mb-md-0">
-                <div className="position-relative">
-                  <div className="bg-light position-absolute top-0 start-0 rounded-circle" style={{ width: '300px', height: '300px' }}></div>
-                  <img 
-                    src="./dev.jpg"alt="Dev Shah" 
-                    className="img-fluid rounded-circle position-relative z-1 border" 
-                    style={{
-                      width: '280px',
-                      height: '280px',
-                      objectFit: 'cover',
-                      borderRadius: '50%',
-                      borderWidth: '5px',
-                      borderStyle: 'solid',
-                      borderColor: '#000'
-                    }}
-                  />
+              <Col md={5} className="mb-4 mb-md-0 d-flex justify-content-center">
+                <div className="profile-photo-container">
+                  <div className="profile-photo-wrapper">
+                    <img 
+                      src="./dev.jpg" 
+                      alt="Dev Shah" 
+                      className="profile-photo-img"
+                    />
+                  </div>
                 </div>
               </Col>
-              <Col md={7} className="ps-md-5">
-                <h6 className="text-uppercase text-muted mb-3">B.E. IT Student</h6>
+              <Col md={7} className="text-center text-md-start ps-md-5 mt-4 mt-md-0">
                 <h1 className="display-4 fw-bold mb-4">Dev Shah</h1>
                 <p className="lead text-secondary mb-4" style={{ maxWidth: '600px', lineHeight: 1.75, fontSize: '1.125rem' }}>
                   I'm Dev Shah, an Information Technology(L.Y.) student at SVIT with a passion for software development and AI/ML integration. I thrive on exploring emerging technologies like IoT and turning them into practical, efficient solutions. Committed to continuous learning, I transform ideas into impactful software every day.
                 </p>
-                <div className="d-flex flex-wrap gap-3">
+                <div className="d-flex flex-wrap gap-3 justify-content-center justify-content-md-start">
                   <Button href="#projects" variant="outline-dark" size="lg" className="px-4 py-2 fw-medium">
                     View Projects
                   </Button>
@@ -132,7 +145,7 @@ const App = () => {
         </section>
 
         {/* Education Section */}
-        <section id="education" className="py-6 bg-white">
+        <section id="education" className="py-4 py-md-5 bg-white">
           <Container>
             <div className="text-center mb-5">
               <h2 className="display-5 fw-bold mb-3">Education</h2>
@@ -173,7 +186,7 @@ const App = () => {
         </section>
 
         {/* Skills Section */}
-        <section id="skills" className="py-6 mb-5" style={{ backgroundColor: '#f8f9fa' }}>
+        <section id="skills" className="py-4 py-md-5 mb-5" style={{ backgroundColor: '#f8f9fa' }}>
           <Container>
             <div className="text-center mb-5">
               <h2 className="display-5 fw-bold mb-3">Skills & Technologies</h2>
@@ -222,7 +235,7 @@ const App = () => {
       </Row>
       <div className="mt-5">
               <h5 className="fw-bold mb-4">Used Technologies</h5>
-              <div className="d-flex flex-wrap gap-2">
+              <div className="d-flex flex-wrap gap-2 justify-content-center">
                 {['llama.cpp for AI chatbot', 'OpenCV', 'TensorFlow', 'MongoDB', 'AI/ML', 'GrowPi', 'Firebase', 'MySQL'].map((tech, index) => (
                   <span key={index} className="py-1 px-3 border text-muted">
                     {tech}
@@ -234,7 +247,7 @@ const App = () => {
         </section>
 
         {/* Projects Section */}
-        <section id="projects" className="py-6 bg-white">
+        <section id="projects" className="py-4 py-md-5 bg-white">
           <Container>
             <div className="text-center mb-5">
               <h2 className="display-5 fw-bold mb-3">Projects</h2>
@@ -279,7 +292,7 @@ const App = () => {
         </section>
 
         {/* Experience Section */}
-        <section id="experience" className="py-6" style={{ backgroundColor: '#f8f9fa' }}>
+        <section id="experience" className="py-4 py-md-5" style={{ backgroundColor: '#f8f9fa' }}>
           <Container>
             <div className="text-center mb-5">
               <h2 className="display-5 fw-bold mb-3">Work Experience</h2>
@@ -308,7 +321,7 @@ const App = () => {
         </section>
 
         {/* Contact Section */}
-        <section id="contact" className="py-6 bg-white">
+        <section id="contact" className="py-4 py-md-5 bg-white">
           <Container>
             <div className="text-center mb-5">
               <h2 className="display-5 fw-bold mb-3">Contact Me</h2>
@@ -499,7 +512,7 @@ const App = () => {
         </Container>
         
         {/* Add this style tag for hover effects */}
-        <style jsx>{`
+        <style>{`
           .hover-underline {
             position: relative;
             display: inline-block;
@@ -532,63 +545,112 @@ const App = () => {
           .logo-placeholder:hover {
             transform: scale(1.1);
           }
-            .skill-column {
-    background: white;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-top: 4px solid #9e9e9e;;
-  }
-  
-  .skill-column:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  }
-  
-  .skill-block {
-    width: 30px;
-    height: 12px;
-    background-color: #e9ecef;
-    border-radius: 3px;
-    transition: all 0.3s ease;
-  }
-  
-  .skill-block-filled {
-  background: linear-gradient(90deg, #e0e0e0, #757575);
-}
-  
-  .divider {
-    width: 80px;
-    height: 4px;
-    background: linear-gradient(90deg, #4361ee, #3a0ca3);
-    border-radius: 2px;
-  }
-  
-  .skill-legend {
-    max-width: 600px;
-    width: 100%;
-  }
-  
-  h2.display-5 {
-    color: #212529;
-    position: relative;
-    padding-bottom: 10px;
-  }
-  
-  h2.display-5:after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 4px;
-    background: linear-gradient(90deg, #4361ee, #3a0ca3);
-    border-radius: 2px;}
-    /* In your CSS file or <style> tag */
-.gray-shadow-sm {
-  box-shadow: 0 .125rem .25rem rgba(128, 128, 128, 0.3); /* light gray shadow */
-}
+          
+          .skill-column {
+            background: white;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 4px solid #9e9e9e;
+          }
+          
+          .skill-column:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+          }
+          
+          .divider {
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #4361ee, #3a0ca3);
+            border-radius: 2px;
+          }
+          
+          h2.display-5 {
+            color: #212529;
+            position: relative;
+            padding-bottom: 10px;
+          }
+          
+          .gray-shadow-sm {
+            box-shadow: 0 .125rem .25rem rgba(128, 128, 128, 0.3);
+          }
+          
           .gray-shadow-sm:hover {
-            box-shadow: 0 .25rem .5rem rgba(128, 128, 128, 0.4); /* darker gray shadow on hover */
+            box-shadow: 0 .25rem .5rem rgba(128, 128, 128, 0.4);
+          }
+          
+          /* Ensure sections account for fixed navbar */
+          section {
+            scroll-margin-top: 85px;
+          }
+          
+          /* Modern, borderless profile photo */
+          .profile-photo-container {
+            position: relative;
+            display: inline-block;
+            z-index: 1;
+          }
+          
+          .profile-photo-wrapper {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 
+              0 15px 35px rgba(0, 0, 0, 0.1),
+              0 3px 10px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          }
+          
+          .profile-photo-wrapper:hover {
+            transform: scale(1.02);
+            box-shadow: 
+              0 25px 50px rgba(0, 0, 0, 0.15),
+              0 10px 20px rgba(0, 0, 0, 0.1);
+          }
+          
+          .profile-photo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: transform 0.5s ease;
+          }
+          
+          .profile-photo-wrapper:hover .profile-photo-img {
+            transform: scale(1.05);
+          }
+          
+          /* Add a subtle glow effect */
+          .profile-photo-container::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(
+              45deg,
+              rgba(52, 152, 219, 0.1),
+              rgba(155, 89, 182, 0.1),
+              rgba(26, 188, 156, 0.1)
+            );
+            border-radius: 50%;
+            z-index: -1;
+            animation: rotate 15s linear infinite;
+            filter: blur(20px);
+          }
+          
+          @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+          }
+          
+          @media (max-width: 768px) {
+            .profile-photo-wrapper {
+              width: 240px;
+              height: 240px;
+            }
           }
         `}</style>
       </footer>
