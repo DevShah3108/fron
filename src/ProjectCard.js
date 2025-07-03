@@ -24,9 +24,10 @@ const ProjectCard = ({ title, description, technologies, images = [] }) => {
       {images.length > 0 && (
         <img
           src={images[currentImage]}
+        
           alt={title}
           className="img-fluid mb-3 rounded"
-          style={{ height: '200px', objectFit: 'cover', width: '100%' }}
+          style={{ height: '400px', objectFit: 'cover', width: '100%' }}
         />
       )}
       <h5>{title}</h5>
