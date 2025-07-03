@@ -242,7 +242,7 @@ const SkillsSection = () => {
         
         {/* Enhanced Used Technologies - Bubble Tag Cloud */}
         <div className="mt-5 p-4 rounded-4 gray-shadow-sm bg-white">
-          <h5 className="fw-bold mb-4 text-center">Drag & Play with Technologies I've Worked With</h5>
+          <h5 className="fw-bold mb-4 text-center">Technologies I've Worked With</h5>
           <div 
             ref={containerRef}
             className="tech-cloud position-relative mx-auto" 
