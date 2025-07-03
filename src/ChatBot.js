@@ -45,7 +45,7 @@ const ChatBot = () => {
       'Please check your internet connection and try again.'
     );
   }
-}, [backendBaseURL]);
+}, [backendBaseURL, setBackendStatus, setConnectionError]);
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
