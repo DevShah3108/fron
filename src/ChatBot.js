@@ -29,19 +29,6 @@ const ChatBot = () => {
     "How can I contact Dev?"
   ];
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-    testBackendConnection();
-  },  [testBackendConnection]);
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
   const testBackendConnection = async () => {
     try {
       setBackendStatus('checking');
@@ -59,6 +46,19 @@ const ChatBot = () => {
       );
     }
   };
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+    testBackendConnection();
+  },  [testBackendConnection]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
 
   const sendToBackend = async (message) => {
     setIsLoading(true);
