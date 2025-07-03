@@ -135,32 +135,31 @@ const SkillsSection = () => {
     e.preventDefault();
   };
   
+ useEffect(() => {
+  if (draggedIndex === null) return;
+
+  const container = containerRef.current;
+  if (!container) return;
+
   const handleMouseMove = (e) => {
-    if (draggedIndex === null) return;
-    
-    const container = containerRef.current;
-    if (!container) return;
-    
     const containerRect = container.getBoundingClientRect();
     const x = ((e.clientX - containerRect.left) / containerRect.width) * 100;
     const y = ((e.clientY - containerRect.top) / containerRect.height) * 100;
-    
-    setBubblePositions(prev => 
-      prev.map((pos, i) => 
-        i === draggedIndex ? {...pos, x, y} : pos
+
+    setBubblePositions((prev) =>
+      prev.map((pos, i) =>
+        i === draggedIndex ? { ...pos, x, y } : pos
       )
     );
   };
-  
+
   const handleMouseUp = () => {
     if (draggedIndex !== null) {
-      // Apply velocity when released
-      setBubblePositions(prev => 
+      setBubblePositions((prev) =>
         prev.map((pos, i) => {
           if (i === draggedIndex) {
-            // Add some velocity based on drag speed
             return {
-              ...pos, 
+              ...pos,
               isDragging: false,
               vx: (Math.random() - 0.5) * 1.5,
               vy: (Math.random() - 0.5) * 1.5
@@ -172,16 +171,16 @@ const SkillsSection = () => {
       setDraggedIndex(null);
     }
   };
-  
-  // Add event listeners for mouse events
-  useEffect(() => {
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-    };
-  },  [handleMouseMove, handleMouseUp, draggedIndex]);
+
+  document.addEventListener('mousemove', handleMouseMove);
+  document.addEventListener('mouseup', handleMouseUp);
+
+  return () => {
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('mouseup', handleMouseUp);
+  };
+}, [draggedIndex]);
+
 
   return (
     <section id="skills" className="py-5 mb-5" style={{ backgroundColor: '#f8f9fa' }}>
