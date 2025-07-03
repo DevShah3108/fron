@@ -16,7 +16,7 @@ const ChatBot = () => {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [connectionError, setConnectionError] = useState(null);
-  const [backendStatus, setBackendStatus] = useState('unknown');
+  const [setBackendStatus] = useState('unknown');
   const messagesEndRef = useRef(null);
   
   // Backend URL configuration
@@ -36,7 +36,7 @@ const ChatBot = () => {
   useEffect(() => {
     scrollToBottom();
     testBackendConnection();
-  }, []);
+  },  [testBackendConnection]);
 
   useEffect(() => {
     scrollToBottom();

@@ -181,7 +181,7 @@ const SkillsSection = () => {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [draggedIndex]);
+  },  [handleMouseMove, handleMouseUp, draggedIndex]);
 
   return (
     <section id="skills" className="py-5 mb-5" style={{ backgroundColor: '#f8f9fa' }}>

@@ -1,5 +1,5 @@
 // src/App.js
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect} from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ProjectCard from './ProjectCard';
@@ -65,27 +65,7 @@ const App = () => {
     }
   };
   
-  const SkillLevelBar = ({ level }) => {
-    // Convert percentage to 5-step visualization
-    const steps = Math.min(5, Math.ceil(level / 20));
-    
-    return (
-      <div className="d-flex gap-1">
-        {[...Array(5)].map((_, i) => (
-          <div 
-            key={i}
-            className={`skill-step ${i < steps ? 'skill-step-filled' : ''}`}
-            style={{
-              width: '18px',
-              height: '8px',
-              backgroundColor: i < steps ? '#343a40' : '#e9ecef',
-              transition: 'background-color 0.3s ease'
-            }}
-          />
-        ))}
-      </div>
-    );
-  };
+
 
   return (
     <>
