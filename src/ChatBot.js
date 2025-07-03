@@ -1,5 +1,5 @@
 // src/components/ChatBot.js
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect,useCallback } from 'react';
 import axios from 'axios';
 import { FaRobot, FaPaperPlane, FaTimes, FaRedo } from 'react-icons/fa';
 import { IoMdChatbubbles } from 'react-icons/io';
@@ -29,23 +29,23 @@ const ChatBot = () => {
     "How can I contact Dev?"
   ];
 
-  const testBackendConnection = async () => {
-    try {
-      setBackendStatus('checking');
-      await axios.get(`${backendBaseURL}/`, {
-        timeout: 3000,
-        headers: { 'X-Connection-Test': 'true' }
-      });
-      setBackendStatus('connected');
-      setConnectionError(null);
-    } catch (error) {
-      setBackendStatus('failed');
-      setConnectionError(
-        `I'm having trouble connecting to the knowledge base. ` + 
-        'Please check your internet connection and try again.'
-      );
-    }
-  };
+ const testBackendConnection = useCallback(async () => {
+  try {
+    setBackendStatus('checking');
+    await axios.get(`${backendBaseURL}/`, {
+      timeout: 3000,
+      headers: { 'X-Connection-Test': 'true' }
+    });
+    setBackendStatus('connected');
+    setConnectionError(null);
+  } catch (error) {
+    setBackendStatus('failed');
+    setConnectionError(
+      `I'm having trouble connecting to the knowledge base. ` + 
+      'Please check your internet connection and try again.'
+    );
+  }
+}, [backendBaseURL]);
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
