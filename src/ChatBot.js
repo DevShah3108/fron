@@ -33,7 +33,7 @@ const ChatBot = () => {
   try {
     setBackendStatus('checking');
     await axios.get(`${backendBaseURL}/`, {
-      timeout: 3000,
+      timeout: 100000,
       headers: { 'X-Connection-Test': 'true' }
     });
     setBackendStatus('connected');
